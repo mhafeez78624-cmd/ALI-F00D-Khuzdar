@@ -1,0 +1,17 @@
+{
+  "name": "ALI FOOD KHUZDAR",
+  "short_name": "Ali Food",
+  "description": "ALI FOOD KHUZDAR - Fast Fresh Fiery. Order fast food offline, pay via EasyPaisa, JazzCash or Bank Transfer.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#191410",
+  "theme_color": "#d62828",
+  "lang": "ur",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

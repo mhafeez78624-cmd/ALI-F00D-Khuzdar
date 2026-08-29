@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>ALI FOOD KHUZDAR</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#d62828">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+:root{
+  --flame1:#ff5f2e;
+  --flame2:#d62828;
+  --gold:#ffb627;
+  --char:#191410;
+  --char2:#241b15;
+  --cream:#fff6ea;
+  --muted:#c9b8a8;
+  --green:#2fae5c;
+  --card:#2a2019;
+  --shadow: 0 10px 30px rgba(0,0,0,.45);
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;height:100%;}
+body{
+  background:var(--char);
+  color:var(--cream);
+  font-family:'Segoe UI', Tahoma, Arial, sans-serif;
+  overflow-x:hidden;
+  perspective:1200px;
+}
+h1,h2,h3,.display{
+  font-family:'Arial Black', Impact, 'Segoe UI', sans-serif;
+  letter-spacing:.5px;
+}
+::-webkit-scrollbar{height:6px;width:6px;}
+::-webkit-scrollbar-thumb{background:var(--flame1);border-radius:4px;}
+
+/* ---------- SPLASH ---------- */
+#splash{
+  position:fixed;inset:0;z-index:999;
+  background:radial-gradient(ellipse at center, #2a1c12 0%, #120c08 80%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  transition:opacity .6s ease, visibility .6s;
+}
+#splash.hide{opacity:0;visibility:hidden;pointer-events:none;}
+.burger3d{
+  width:180px;height:150px;position:relative;
+  transform-style:preserve-3d;
+  animation:spin3d 3.2s ease-in-out infinite;
+}
+@keyframes spin3d{
+  0%{transform:rotateY(0deg) rotateX(8deg);}
+  50%{transform:rotateY(180deg) rotateX(8deg);}
+  100%{transform:rotateY(360deg) rotateX(8deg);}
+}
+.layer{position:absolute;left:50%;top:50%;border-radius:50%;transform:translate(-50%,-50%);}
+.bun-top{width:170px;height:80px;background:linear-gradient(180deg,#e8a34d,#c97a2c);top:20%;border-radius:90px 90px 20px 20px;box-shadow:inset 0 -8px 10px rgba(0,0,0,.25);}
+.sesame{position:absolute;width:6px;height:9px;background:#fff3d6;border-radius:50%;}
+.lettuce{width:180px;height:22px;background:#5fae3d;top:44%;border-radius:40% 60% 40% 60%;}
+.patty{width:168px;height:26px;background:linear-gradient(180deg,#6b3a20,#4a260f);top:54%;border-radius:20px;}
+.cheese{width:172px;height:14px;background:#ffcb3d;top:50%;clip-path:polygon(0 0,100% 0,92% 100%,8% 100%);}
+.tomato{width:170px;height:16px;background:#e0402f;top:62%;border-radius:20px;}
+.bun-bot{width:172px;height:46px;background:linear-gradient(180deg,#d98d3d,#a3611c);top:74%;border-radius:16px 16px 60px 60px;}
+.flames{position:absolute;bottom:-14px;left:50%;transform:translateX(-50%);font-size:26px;filter:drop-shadow(0 0 8px var(--flame1));animation:flick 1s infinite alternate;}
+@keyframes flick{from{opacity:.6;transform:translateX(-50%) scale(1);}to{opacity:1;transform:translateX(-50%) scale(1.15);}}
+.brand{margin-top:26px;text-align:center;}
+.brand .b1{font-size:2.1rem;color:var(--cream);text-shadow:0 0 18px rgba(255,95,46,.6);}
+.brand .b2{font-size:1rem;color:var(--gold);letter-spacing:6px;margin-top:2px;}
+.loading-bar{width:160px;height:4px;background:#3a2a1e;border-radius:4px;margin-top:18px;overflow:hidden;}
+.loading-bar span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--flame1),var(--gold));animation:load 1.8s ease forwards;}
+@keyframes load{to{width:100%;}}
+
+/* ---------- HEADER ---------- */
+header{
+  position:sticky;top:0;z-index:50;
+  background:linear-gradient(180deg,#20160f,#1a120c);
+  padding:10px 14px;display:flex;align-items:center;gap:10px;
+  box-shadow:0 4px 18px rgba(0,0,0,.4);
+}
+.logo-mini{width:42px;height:42px;border-radius:50%;background:radial-gradient(circle at 35% 30%,var(--gold),var(--flame2));display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 0 12px rgba(255,140,40,.6);flex-shrink:0;}
+.brand-text{flex:1;min-width:0;}
+.brand-text .name{font-weight:800;font-size:1rem;color:var(--cream);line-height:1.1;}
+.brand-text .sub{font-size:.62rem;color:var(--gold);letter-spacing:3px;}
+.icon-btn{position:relative;background:#33241a;border:1px solid #4a3524;color:var(--cream);width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;transition:.2s;}
+.icon-btn:active{transform:scale(.9);}
+.badge{position:absolute;top:-6px;right:-6px;background:var(--flame1);color:#fff;font-size:.62rem;font-weight:700;border-radius:20px;padding:1px 6px;min-width:16px;text-align:center;}
+
+/* ---------- DEALS STRIP ---------- */
+.deals-wrap{padding:14px 0 4px;}
+.section-title{padding:0 14px;font-size:1rem;color:var(--gold);display:flex;align-items:center;gap:6px;margin-bottom:8px;}
+.deals-scroll{display:flex;gap:12px;overflow-x:auto;padding:0 14px 8px;}
+.deal-card{
+  min-width:230px;background:linear-gradient(135deg,var(--flame2),#8c1414);
+  border-radius:18px;padding:14px;position:relative;overflow:hidden;flex-shrink:0;
+  transform-style:preserve-3d; transition:transform .25s;box-shadow:var(--shadow);
+}
+.deal-card:active{transform:scale(.97);}
+.deal-card .tag{position:absolute;top:10px;right:10px;background:var(--gold);color:#3a2400;font-weight:800;font-size:.7rem;padding:3px 8px;border-radius:20px;transform:translateZ(20px);}
+.deal-card h3{margin:18px 0 4px;font-size:1.05rem;color:#fff;}
+.deal-card p{margin:0;font-size:.78rem;color:#ffd9c8;}
+.deal-card .price{margin-top:10px;font-weight:800;font-size:1.1rem;color:var(--gold);}
+.deal-card .old{text-decoration:line-through;color:#ffb;font-weight:400;font-size:.8rem;margin-left:6px;opacity:.7;}
+
+/* ---------- CATEGORY TABS ---------- */
+.cats{display:flex;gap:8px;overflow-x:auto;padding:10px 14px;}
+.cat-btn{flex-shrink:0;background:#2a1e15;border:1px solid #45301f;color:var(--muted);padding:8px 16px;border-radius:30px;font-size:.82rem;cursor:pointer;white-space:nowrap;transition:.2s;}
+.cat-btn.active{background:linear-gradient(135deg,var(--flame1),var(--flame2));color:#fff;border-color:transparent;box-shadow:0 4px 14px rgba(214,40,40,.4);}
+
+/* ---------- PRODUCT GRID ---------- */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:6px 14px 100px;}
+.card{
+  background:var(--card);border-radius:18px;padding:12px;position:relative;
+  transform-style:preserve-3d;transition:transform .12s ease-out, box-shadow .2s;
+  box-shadow:0 6px 16px rgba(0,0,0,.35);border:1px solid #3a2b1e;
+}
+.card:active{transform:scale(.97) !important;}
+.card .emoji{font-size:2.6rem;text-align:center;transform:translateZ(30px);filter:drop-shadow(0 8px 10px rgba(0,0,0,.5));transition:transform .3s;}
+.card:hover .emoji{transform:translateZ(40px) scale(1.08) rotate(-4deg);}
+.card h4{margin:8px 0 2px;font-size:.88rem;color:var(--cream);transform:translateZ(15px);}
+.card .cat-label{font-size:.62rem;color:var(--muted);transform:translateZ(15px);}
+.card .row{display:flex;align-items:center;justify-content:space-between;margin-top:8px;transform:translateZ(15px);}
+.card .price{font-weight:800;color:var(--gold);font-size:.95rem;}
+.card .add-btn{background:linear-gradient(135deg,var(--flame1),var(--flame2));border:none;color:#fff;width:32px;height:32px;border-radius:10px;font-size:1.1rem;cursor:pointer;box-shadow:0 4px 10px rgba(214,40,40,.5);}
+.card .add-btn:active{transform:scale(.85);}
+.card .discount-flag{position:absolute;top:8px;left:8px;background:var(--green);color:#fff;font-size:.62rem;font-weight:700;padding:2px 7px;border-radius:8px;transform:translateZ(25px);}
+.card .del-btn{position:absolute;top:8px;right:8px;background:#c62828;border:none;color:#fff;width:24px;height:24px;border-radius:8px;font-size:.85rem;cursor:pointer;display:none;}
+.admin-mode .card .del-btn{display:block;}
+
+.empty{padding:40px 14px;text-align:center;color:var(--muted);}
+
+/* ---------- CART DRAWER ---------- */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:80;opacity:0;visibility:hidden;transition:.3s;}
+.overlay.show{opacity:1;visibility:visible;}
+.drawer{
+  position:fixed;right:0;top:0;bottom:0;width:min(88vw,380px);background:#20160f;
+  z-index:90;transform:translateX(100%);transition:transform .35s cubic-bezier(.2,.8,.2,1);
+  display:flex;flex-direction:column;box-shadow:-10px 0 30px rgba(0,0,0,.5);
+}
+.drawer.show{transform:translateX(0);}
+.drawer-head{padding:16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #3a2b1e;}
+.drawer-head h3{margin:0;font-size:1.05rem;}
+.close-x{background:none;border:none;color:var(--muted);font-size:1.4rem;cursor:pointer;}
+.cart-list{flex:1;overflow-y:auto;padding:10px 16px;}
+.cart-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #2f221720;}
+.cart-item .em{font-size:1.6rem;}
+.cart-item .info{flex:1;}
+.cart-item .info .n{font-size:.85rem;}
+.cart-item .info .p{font-size:.78rem;color:var(--gold);}
+.qty{display:flex;align-items:center;gap:8px;}
+.qty button{width:26px;height:26px;border-radius:8px;border:1px solid #4a3524;background:#2a1e15;color:#fff;cursor:pointer;}
+.drawer-foot{padding:14px 16px 20px;border-top:1px solid #3a2b1e;}
+.total-row{display:flex;justify-content:space-between;font-size:1.05rem;font-weight:800;margin-bottom:10px;}
+.total-row span:last-child{color:var(--gold);}
+.btn-primary{width:100%;padding:14px;border:none;border-radius:14px;background:linear-gradient(135deg,var(--flame1),var(--flame2));color:#fff;font-weight:800;font-size:.95rem;cursor:pointer;box-shadow:0 6px 16px rgba(214,40,40,.45);}
+.btn-primary:active{transform:scale(.98);}
+.btn-secondary{width:100%;padding:12px;border:1px solid #4a3524;border-radius:14px;background:transparent;color:var(--muted);font-weight:600;margin-top:8px;cursor:pointer;}
+
+/* ---------- FAB CART ---------- */
+.fab{position:fixed;bottom:20px;right:16px;z-index:60;background:linear-gradient(135deg,var(--flame1),var(--flame2));border:none;color:#fff;width:58px;height:58px;border-radius:50%;font-size:1.5rem;box-shadow:0 8px 22px rgba(214,40,40,.55);cursor:pointer;}
+.fab .badge{top:-4px;right:-4px;}
+
+/* ---------- MODALS ---------- */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:100;display:flex;align-items:flex-end;justify-content:center;opacity:0;visibility:hidden;transition:.25s;}
+.modal-bg.show{opacity:1;visibility:visible;}
+.modal{background:#20160f;width:100%;max-width:480px;border-radius:22px 22px 0 0;padding:20px;max-height:88vh;overflow-y:auto;transform:translateY(30px);transition:.3s;}
+.modal-bg.show .modal{transform:translateY(0);}
+.modal h3{margin-top:0;}
+.field{margin-bottom:12px;}
+.field label{display:block;font-size:.78rem;color:var(--muted);margin-bottom:5px;}
+.field input,.field select,.field textarea{width:100%;padding:11px;border-radius:10px;border:1px solid #4a3524;background:#2a1e15;color:#fff;font-size:.9rem;}
+.pay-opts{display:flex;flex-direction:column;gap:8px;}
+.pay-opt{display:flex;align-items:center;gap:10px;background:#2a1e15;border:1px solid #4a3524;border-radius:12px;padding:10px 12px;cursor:pointer;}
+.pay-opt.active{border-color:var(--gold);background:#3a2a17;}
+.pay-opt .ic{font-size:1.3rem;}
+.pay-detail{background:#2a1e15;border-radius:12px;padding:10px 12px;font-size:.8rem;color:var(--muted);margin-top:8px;display:none;}
+.pay-detail.show{display:block;}
+.pay-detail b{color:var(--gold);}
+.admin-list-item{display:flex;align-items:center;gap:10px;background:#2a1e15;border-radius:12px;padding:10px;margin-bottom:8px;}
+.admin-list-item .em{font-size:1.4rem;}
+.admin-list-item .n{flex:1;font-size:.85rem;}
+.admin-list-item .p{color:var(--gold);font-size:.8rem;margin-right:6px;}
+.mini-del{background:#c62828;border:none;color:#fff;width:28px;height:28px;border-radius:8px;cursor:pointer;}
+.tabbar{display:flex;gap:6px;margin-bottom:14px;}
+.tabbar button{flex:1;padding:9px;border-radius:10px;border:1px solid #4a3524;background:#2a1e15;color:var(--muted);cursor:pointer;font-size:.82rem;}
+.tabbar button.active{background:var(--flame1);color:#fff;border-color:transparent;}
+.order-card{background:#2a1e15;border-radius:12px;padding:10px 12px;margin-bottom:8px;font-size:.8rem;}
+.order-card .oid{color:var(--gold);font-weight:700;}
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#2fae5c;color:#fff;padding:10px 20px;border-radius:30px;font-size:.85rem;z-index:200;opacity:0;transition:.3s;pointer-events:none;box-shadow:0 6px 16px rgba(0,0,0,.4);}
+.toast.show{opacity:1;bottom:100px;}
+.emoji-pick{display:flex;flex-wrap:wrap;gap:6px;}
+.emoji-pick span{font-size:1.4rem;padding:6px;border-radius:8px;background:#2a1e15;border:1px solid #4a3524;cursor:pointer;}
+.emoji-pick span.sel{border-color:var(--gold);background:#3a2a17;}
+</style>
+</head>
+<body>
+
+<!-- SPLASH -->
+<div id="splash">
+  <div class="burger3d">
+    <div class="layer bun-top"></div>
+    <div class="layer sesame" style="top:12%;left:38%;"></div>
+    <div class="layer sesame" style="top:14%;left:52%;"></div>
+    <div class="layer sesame" style="top:10%;left:66%;"></div>
+    <div class="layer lettuce"></div>
+    <div class="layer cheese"></div>
+    <div class="layer patty"></div>
+    <div class="layer tomato"></div>
+    <div class="layer bun-bot"></div>
+    <div class="flames">🔥</div>
+  </div>
+  <div class="brand">
+    <div class="b1">ALI FOOD</div>
+    <div class="b2">K H U Z D A R</div>
+  </div>
+  <div class="loading-bar"><span></span></div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="logo-mini">🍔</div>
+  <div class="brand-text">
+    <div class="name">ALI FOOD KHUZDAR</div>
+    <div class="sub">FAST • FRESH • FIERY</div>
+  </div>
+  <button class="icon-btn" id="installBtn" title="Install App" style="display:none;">⬇️</button>
+  <button class="icon-btn" id="adminBtn" title="Admin">🔒</button>
+  <button class="icon-btn" id="ordersBtn" title="Orders">🧾</button>
+</header>
+
+<!-- DEALS -->
+<div class="deals-wrap">
+  <div class="section-title">🔥 Aaj Ke Deals</div>
+  <div class="deals-scroll" id="dealsScroll"></div>
+</div>
+
+<!-- CATEGORIES -->
+<div class="cats" id="catBar"></div>
+
+<!-- PRODUCT GRID -->
+<div class="grid" id="grid"></div>
+
+<!-- FAB -->
+<button class="fab" id="fabCart">🛒<span class="badge" id="cartCount">0</span></button>
+
+<!-- CART DRAWER -->
+<div class="overlay" id="overlay"></div>
+<div class="drawer" id="cartDrawer">
+  <div class="drawer-head"><h3>Aap Ka Cart</h3><button class="close-x" id="closeCart">✕</button></div>
+  <div class="cart-list" id="cartList"></div>
+  <div class="drawer-foot">
+    <div class="total-row"><span>Total</span><span id="cartTotal">Rs 0</span></div>
+    <button class="btn-primary" id="checkoutBtn">Order Karein →</button>
+  </div>
+</div>
+
+<!-- CHECKOUT MODAL -->
+<div class="modal-bg" id="checkoutModal">
+  <div class="modal">
+    <h3>📦 Order Details</h3>
+    <div class="field"><label>Naam</label><input id="custName" placeholder="Aap ka naam"></div>
+    <div class="field"><label>Mobile Number</label><input id="custPhone" placeholder="03xx-xxxxxxx"></div>
+    <div class="field"><label>Address (Khuzdar)</label><textarea id="custAddr" rows="2" placeholder="Ghar / Mohalla ka pata"></textarea></div>
+    <div class="field">
+      <label>Payment Method</label>
+      <div class="pay-opts" id="payOpts"></div>
+      <div class="pay-detail" id="payDetail"></div>
+    </div>
+    <button class="btn-primary" id="placeOrderBtn">Order Confirm Karein</button>
+    <button class="btn-secondary" id="cancelOrderBtn">Cancel</button>
+  </div>
+</div>
+
+<!-- ORDER SUCCESS -->
+<div class="modal-bg" id="successModal">
+  <div class="modal" style="text-align:center;">
+    <div style="font-size:3rem;">✅</div>
+    <h3 style="margin:6px 0;">Order Mil Gaya!</h3>
+    <p style="color:var(--muted);font-size:.85rem;" id="successText"></p>
+    <button class="btn-primary" id="successClose">Theek Hai</button>
+  </div>
+</div>
+
+<!-- ADMIN LOGIN -->
+<div class="modal-bg" id="adminLoginModal">
+  <div class="modal">
+    <h3>🔒 Admin Login</h3>
+    <div class="field"><label>Password</label><input id="adminPass" type="password" placeholder="Password daalein"></div>
+    <button class="btn-primary" id="adminLoginBtn">Login</button>
+    <button class="btn-secondary" id="adminCancelBtn">Cancel</button>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div class="modal-bg" id="adminModal">
+  <div class="modal">
+    <h3>⚙️ Admin Panel</h3>
+    <div class="tabbar">
+      <button class="active" data-tab="add">➕ Add Product</button>
+      <button data-tab="manage">📋 Manage</button>
+      <button data-tab="orders">🧾 Orders</button>
+    </div>
+
+    <div id="tabAdd">
+      <div class="field"><label>Product Naam</label><input id="pName" placeholder="e.g. Zinger Burger"></div>
+      <div class="field"><label>Category</label>
+        <select id="pCat">
+          <option>Burgers</option><option>Fried Chicken</option><option>Pizza</option>
+          <option>Shawarma</option><option>Drinks</option><option>Fries & Sides</option>
+        </select>
+      </div>
+      <div class="field"><label>Price (Rs)</label><input id="pPrice" type="number" placeholder="450"></div>
+      <div class="field"><label>Discount % (deal ho to)</label><input id="pDiscount" type="number" placeholder="0"></div>
+      <div class="field"><label>Icon Chunein</label>
+        <div class="emoji-pick" id="emojiPick"></div>
+      </div>
+      <button class="btn-primary" id="addProductBtn">Product Add Karein</button>
+    </div>
+
+    <div id="tabManage" style="display:none;">
+      <div id="adminProductList"></div>
+    </div>
+
+    <div id="tabOrders" style="display:none;">
+      <div id="adminOrderList"></div>
+    </div>
+
+    <button class="btn-secondary" id="adminLogoutBtn">Admin Se Nikal Jayein</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ================= DATA ================= */
+const EMOJIS = ["🍔","🍟","🍕","🌯","🍗","🥤","🍢","🌭","🥪","🍝","🍜","🧆","🥗","🍦","☕"];
+const ADMIN_PASSWORD = "ali123";
+
+const DEFAULT_PRODUCTS = [
+  {id:1, name:"Zinger Burger", cat:"Burgers", price:450, discount:0, emoji:"🍔"},
+  {id:2, name:"Beef Cheese Burger", cat:"Burgers", price:400, discount:10, emoji:"🍔"},
+  {id:3, name:"Chicken Broast (2pc)", cat:"Fried Chicken", price:500, discount:0, emoji:"🍗"},
+  {id:4, name:"Chicken Shawarma", cat:"Shawarma", price:250, discount:0, emoji:"🌯"},
+  {id:5, name:"Chicken Pizza (Medium)", cat:"Pizza", price:900, discount:15, emoji:"🍕"},
+  {id:6, name:"French Fries", cat:"Fries & Sides", price:200, discount:0, emoji:"🍟"},
+  {id:7, name:"Cold Drink 1.5L", cat:"Drinks", price:150, discount:0, emoji:"🥤"},
+  {id:8, name:"Chicken Nuggets", cat:"Fried Chicken", price:350, discount:0, emoji:"🍢"},
+];
+
+function loadProducts(){
+  try{
+    const raw = localStorage.getItem("afk_products");
+    if(raw) return JSON.parse(raw);
+  }catch(e){}
+  saveProducts(DEFAULT_PRODUCTS);
+  return DEFAULT_PRODUCTS.slice();
+}
+function saveProducts(p){ try{ localStorage.setItem("afk_products", JSON.stringify(p)); }catch(e){} }
+function loadOrders(){ try{ return JSON.parse(localStorage.getItem("afk_orders")||"[]"); }catch(e){ return []; } }
+function saveOrders(o){ try{ localStorage.setItem("afk_orders", JSON.stringify(o)); }catch(e){} }
+
+let products = loadProducts();
+let orders = loadOrders();
+let cart = [];
+let activeCat = "All";
+let selectedPay = "cod";
+let isAdmin = false;
+
+/* ================= SPLASH ================= */
+setTimeout(()=>{ document.getElementById('splash').classList.add('hide'); }, 2000);
+
+/* ================= RENDER: DEALS ================= */
+function renderDeals(){
+  const wrap = document.getElementById('dealsScroll');
+  const deals = products.filter(p=>p.discount>0);
+  wrap.innerHTML = "";
+  if(deals.length===0){ wrap.innerHTML = '<div class="empty" style="padding:10px 0;">Filhaal koi deal nahi</div>'; return; }
+  deals.forEach(p=>{
+    const finalPrice = Math.round(p.price*(1-p.discount/100));
+    const el = document.createElement('div');
+    el.className='deal-card';
+    el.innerHTML = `<div class="tag">${p.discount}% OFF</div>
+      <div style="font-size:2.2rem;">${p.emoji}</div>
+      <h3>${p.name}</h3><p>${p.cat}</p>
+      <div class="price">Rs ${finalPrice} <span class="old">Rs ${p.price}</span></div>`;
+    el.addEventListener('click', ()=>addToCart(p.id));
+    wrap.appendChild(el);
+  });
+}
+
+/* ================= RENDER: CATEGORIES ================= */
+function renderCats(){
+  const cats = ["All", ...new Set(products.map(p=>p.cat))];
+  const bar = document.getElementById('catBar');
+  bar.innerHTML = "";
+  cats.forEach(c=>{
+    const b = document.createElement('button');
+    b.className = 'cat-btn' + (c===activeCat ? ' active':'');
+    b.textContent = c;
+    b.addEventListener('click', ()=>{ activeCat=c; renderCats(); renderGrid(); });
+    bar.appendChild(b);
+  });
+}
+
+/* ================= RENDER: GRID ================= */
+function renderGrid(){
+  const grid = document.getElementById('grid');
+  grid.innerHTML = "";
+  const list = products.filter(p=> activeCat==="All" || p.cat===activeCat);
+  if(list.length===0){ grid.innerHTML='<div class="empty">Koi product nahi mila</div>'; return; }
+  list.forEach(p=>{
+    const finalPrice = p.discount>0 ? Math.round(p.price*(1-p.discount/100)) : p.price;
+    const card = document.createElement('div');
+    card.className='card';
+    card.innerHTML = `
+      ${p.discount>0 ? `<div class="discount-flag">-${p.discount}%</div>`:''}
+      <button class="del-btn" data-id="${p.id}">✕</button>
+      <div class="emoji">${p.emoji}</div>
+      <h4>${p.name}</h4>
+      <div class="cat-label">${p.cat}</div>
+      <div class="row">
+        <div class="price">Rs ${finalPrice}</div>
+        <button class="add-btn" data-id="${p.id}">+</button>
+      </div>`;
+    // 3D tilt
+    card.addEventListener('mousemove', e=>{
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left)/r.width - .5;
+      const y = (e.clientY - r.top)/r.height - .5;
+      card.style.transform = `rotateY(${x*14}deg) rotateX(${-y*14}deg)`;
+    });
+    card.addEventListener('mouseleave', ()=>{ card.style.transform='rotateY(0) rotateX(0)'; });
+    grid.appendChild(card);
+  });
+  grid.querySelectorAll('.add-btn').forEach(b=> b.addEventListener('click', ()=>addToCart(+b.dataset.id)));
+  grid.querySelectorAll('.del-btn').forEach(b=> b.addEventListener('click', ()=>deleteProduct(+b.dataset.id)));
+  document.body.classList.toggle('admin-mode', isAdmin);
+}
+
+/* ================= CART ================= */
+function addToCart(id){
+  const p = products.find(x=>x.id===id);
+  if(!p) return;
+  const existing = cart.find(c=>c.id===id);
+  if(existing) existing.qty++;
+  else cart.push({id:p.id, name:p.name, emoji:p.emoji, price: p.discount>0?Math.round(p.price*(1-p.discount/100)):p.price, qty:1});
+  renderCart();
+  showToast(p.name + " cart mein add ho gaya");
+}
+function changeQty(id, delta){
+  const item = cart.find(c=>c.id===id);
+  if(!item) return;
+  item.qty += delta;
+  if(item.qty<=0) cart = cart.filter(c=>c.id!==id);
+  renderCart();
+}
+function renderCart(){
+  const list = document.getElementById('cartList');
+  list.innerHTML = "";
+  let total = 0, count=0;
+  if(cart.length===0){ list.innerHTML = '<div class="empty">Cart khali hai 🍽️</div>'; }
+  cart.forEach(item=>{
+    total += item.price*item.qty; count += item.qty;
+    const row = document.createElement('div');
+    row.className='cart-item';
+    row.innerHTML = `<div class="em">${item.emoji}</div>
+      <div class="info"><div class="n">${item.name}</div><div class="p">Rs ${item.price}</div></div>
+      <div class="qty"><button data-a="-1">−</button><span>${item.qty}</span><button data-a="1">+</button></div>`;
+    row.querySelectorAll('button').forEach(b=> b.addEventListener('click', ()=>changeQty(item.id, +b.dataset.a)));
+    list.appendChild(row);
+  });
+  document.getElementById('cartTotal').textContent = "Rs " + total;
+  document.getElementById('cartCount').textContent = count;
+}
+
+/* ================= DRAWER / MODAL TOGGLES ================= */
+const overlay = document.getElementById('overlay');
+const drawer = document.getElementById('cartDrawer');
+function openCart(){ drawer.classList.add('show'); overlay.classList.add('show'); }
+function closeCartFn(){ drawer.classList.remove('show'); overlay.classList.remove('show'); }
+document.getElementById('fabCart').addEventListener('click', openCart);
+document.getElementById('closeCart').addEventListener('click', closeCartFn);
+overlay.addEventListener('click', ()=>{ closeCartFn(); closeAllModals(); });
+
+function closeAllModals(){
+  document.querySelectorAll('.modal-bg').forEach(m=>m.classList.remove('show'));
+}
+
+/* ================= CHECKOUT ================= */
+const PAY_METHODS = [
+  {id:"cod", label:"Cash on Delivery", icon:"💵", detail:"Order pohnchne par cash payment karein."},
+  {id:"easypaisa", label:"EasyPaisa", icon:"📱", detail:"EasyPaisa Number: <b>0300-1234567</b><br>Payment karke screenshot delivery rider ko dikhayein."},
+  {id:"jazzcash", label:"JazzCash", icon:"📲", detail:"JazzCash Number: <b>0301-7654321</b><br>Payment karke screenshot delivery rider ko dikhayein."},
+  {id:"bank", label:"Bank Transfer", icon:"🏦", detail:"Bank: HBL<br>Account Title: Ali Food Khuzdar<br>Account No: <b>1234-5678901-2</b>"}
+];
+function renderPayOpts(){
+  const wrap = document.getElementById('payOpts');
+  wrap.innerHTML = "";
+  PAY_METHODS.forEach(m=>{
+    const el = document.createElement('div');
+    el.className = 'pay-opt' + (m.id===selectedPay ? ' active':'');
+    el.innerHTML = `<span class="ic">${m.icon}</span><span>${m.label}</span>`;
+    el.addEventListener('click', ()=>{ selectedPay=m.id; renderPayOpts(); });
+    wrap.appendChild(el);
+  });
+  const detail = document.getElementById('payDetail');
+  const chosen = PAY_METHODS.find(m=>m.id===selectedPay);
+  detail.innerHTML = chosen.detail;
+  detail.classList.add('show');
+}
+document.getElementById('checkoutBtn').addEventListener('click', ()=>{
+  if(cart.length===0){ showToast("Pehle cart mein kuch add karein"); return; }
+  closeCartFn();
+  renderPayOpts();
+  document.getElementById('checkoutModal').classList.add('show');
+});
+document.getElementById('cancelOrderBtn').addEventListener('click', ()=> document.getElementById('checkoutModal').classList.remove('show'));
+
+document.getElementById('placeOrderBtn').addEventListener('click', ()=>{
+  const name = document.getElementById('custName').value.trim();
+  const phone = document.getElementById('custPhone').value.trim();
+  const addr = document.getElementById('custAddr').value.trim();
+  if(!name || !phone || !addr){ showToast("Sari details bharein"); return; }
+  const total = cart.reduce((s,i)=>s+i.price*i.qty,0);
+  const order = {
+    id: "AFK-" + Date.now().toString().slice(-6),
+    date: new Date().toLocaleString(),
+    name, phone, addr,
+    pay: PAY_METHODS.find(m=>m.id===selectedPay).label,
+    items: cart.slice(),
+    total
+  };
+  orders.unshift(order);
+  saveOrders(orders);
+  cart = [];
+  renderCart();
+  document.getElementById('checkoutModal').classList.remove('show');
+  document.getElementById('successText').textContent = `Order ID: ${order.id} — Total Rs ${order.total}. Jald hi deliver ho jayega!`;
+  document.getElementById('successModal').classList.add('show');
+});
+document.getElementById('successClose').addEventListener('click', ()=> document.getElementById('successModal').classList.remove('show'));
+
+/* ================= ADMIN ================= */
+document.getElementById('adminBtn').addEventListener('click', ()=>{
+  if(isAdmin){ openAdminPanel(); }
+  else document.getElementById('adminLoginModal').classList.add('show');
+});
+document.getElementById('adminCancelBtn').addEventListener('click', ()=> document.getElementById('adminLoginModal').classList.remove('show'));
+document.getElementById('adminLoginBtn').addEventListener('click', ()=>{
+  const val = document.getElementById('adminPass').value;
+  if(val === ADMIN_PASSWORD){
+    isAdmin = true;
+    document.getElementById('adminLoginModal').classList.remove('show');
+    document.getElementById('adminPass').value = "";
+    openAdminPanel();
+    renderGrid();
+    showToast("Admin mode ON");
+  } else {
+    showToast("Galat password!");
+  }
+});
+document.getElementById('adminLogoutBtn').addEventListener('click', ()=>{
+  isAdmin = false;
+  closeAllModals();
+  renderGrid();
+  showToast("Admin se logout ho gaye");
+});
+
+function openAdminPanel(){
+  buildEmojiPicker();
+  renderAdminList();
+  renderAdminOrders();
+  document.getElementById('adminModal').classList.add('show');
+}
+document.querySelectorAll('.tabbar button').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.tabbar button').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tabAdd').style.display = btn.dataset.tab==='add' ? 'block':'none';
+    document.getElementById('tabManage').style.display = btn.dataset.tab==='manage' ? 'block':'none';
+    document.getElementById('tabOrders').style.display = btn.dataset.tab==='orders' ? 'block':'none';
+  });
+});
+
+let pickedEmoji = "🍔";
+function buildEmojiPicker(){
+  const wrap = document.getElementById('emojiPick');
+  wrap.innerHTML = "";
+  EMOJIS.forEach(e=>{
+    const s = document.createElement('span');
+    s.textContent = e;
+    if(e===pickedEmoji) s.classList.add('sel');
+    s.addEventListener('click', ()=>{ pickedEmoji=e; buildEmojiPicker(); });
+    wrap.appendChild(s);
+  });
+}
+
+document.getElementById('addProductBtn').addEventListener('click', ()=>{
+  const name = document.getElementById('pName').value.trim();
+  const cat = document.getElementById('pCat').value;
+  const price = parseFloat(document.getElementById('pPrice').value);
+  const discount = parseFloat(document.getElementById('pDiscount').value) || 0;
+  if(!name || !price){ showToast("Naam aur price zaroori hai"); return; }
+  const newProd = { id: Date.now(), name, cat, price, discount, emoji: pickedEmoji };
+  products.push(newProd);
+  saveProducts(products);
+  document.getElementById('pName').value="";
+  document.getElementById('pPrice').value="";
+  document.getElementById('pDiscount').value="";
+  renderCats(); renderGrid(); renderDeals(); renderAdminList();
+  showToast("Product add ho gaya ✅");
+});
+
+function renderAdminList(){
+  const wrap = document.getElementById('adminProductList');
+  wrap.innerHTML = "";
+  products.forEach(p=>{
+    const row = document.createElement('div');
+    row.className='admin-list-item';
+    row.innerHTML = `<span class="em">${p.emoji}</span><span class="n">${p.name} <br><small style="color:var(--muted)">${p.cat}</small></span><span class="p">Rs ${p.price}</span><button class="mini-del" data-id="${p.id}">✕</button>`;
+    row.querySelector('.mini-del').addEventListener('click', ()=>deleteProduct(p.id, true));
+    wrap.appendChild(row);
+  });
+}
+function deleteProduct(id, fromAdmin){
+  if(!isAdmin){ showToast("Sirf admin remove kar sakta hai"); return; }
+  products = products.filter(p=>p.id!==id);
+  saveProducts(products);
+  renderCats(); renderGrid(); renderDeals();
+  if(fromAdmin) renderAdminList();
+  showToast("Product remove ho gaya 🗑️");
+}
+function renderAdminOrders(){
+  const wrap = document.getElementById('adminOrderList');
+  wrap.innerHTML = "";
+  if(orders.length===0){ wrap.innerHTML='<div class="empty">Koi order nahi</div>'; return; }
+  orders.forEach(o=>{
+    const el = document.createElement('div');
+    el.className='order-card';
+    el.innerHTML = `<div class="oid">${o.id}</div>
+      <div>${o.name} — ${o.phone}</div>
+      <div style="color:var(--muted)">${o.addr}</div>
+      <div>Payment: ${o.pay}</div>
+      <div>Items: ${o.items.map(i=>i.name+' x'+i.qty).join(', ')}</div>
+      <div style="color:var(--gold);font-weight:700;">Total: Rs ${o.total}</div>
+      <div style="color:var(--muted);font-size:.7rem;">${o.date}</div>`;
+    wrap.appendChild(el);
+  });
+}
+
+document.getElementById('ordersBtn').addEventListener('click', ()=>{
+  if(!isAdmin){ document.getElementById('adminLoginModal').classList.add('show'); return; }
+  openAdminPanel();
+  document.querySelectorAll('.tabbar button').forEach(b=>b.classList.remove('active'));
+  document.querySelector('.tabbar button[data-tab="orders"]').classList.add('active');
+  document.getElementById('tabAdd').style.display='none';
+  document.getElementById('tabManage').style.display='none';
+  document.getElementById('tabOrders').style.display='block';
+});
+
+/* close modals on tap outside */
+document.querySelectorAll('.modal-bg').forEach(m=>{
+  m.addEventListener('click', e=>{ if(e.target===m) m.classList.remove('show'); });
+});
+
+/* ================= TOAST ================= */
+let toastTimer;
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=> t.classList.remove('show'), 2000);
+}
+
+/* ================= INIT ================= */
+renderDeals();
+renderCats();
+renderGrid();
+renderCart();
+
+/* ================= PWA: SERVICE WORKER ================= */
+if('serviceWorker' in navigator){
+  window.addEventListener('load', ()=>{
+    navigator.serviceWorker.register('sw.js').catch(()=>{});
+  });
+}
+
+/* ================= PWA: INSTALL PROMPT ================= */
+let deferredInstall = null;
+window.addEventListener('beforeinstallprompt', (e)=>{
+  e.preventDefault();
+  deferredInstall = e;
+  const btn = document.getElementById('installBtn');
+  if(btn) btn.style.display = 'flex';
+});
+document.addEventListener('DOMContentLoaded', ()=>{
+  const btn = document.getElementById('installBtn');
+  if(btn){
+    btn.addEventListener('click', async ()=>{
+      if(!deferredInstall) return;
+      deferredInstall.prompt();
+      await deferredInstall.userChoice;
+      deferredInstall = null;
+      btn.style.display = 'none';
+    });
+  }
+});
+</script>
+</body>
+</html>
